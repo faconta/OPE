@@ -1,0 +1,48 @@
+
+Create Table UnidadeMedida
+(
+Id INT not null IDENTITY(1,1), CONSTRAINT pkUnidadeMedida PRIMARY KEY (Id),
+Nomenclatura nvarchar not null, CONSTRAINT uqUniMedida UNIQUE(Nomenclatura)
+)
+
+Create Table Tipo
+(
+Id INT not null IDENTITY(1,1), CONSTRAINT pkTipo PRIMARY KEY (Id),
+Nome nvarchar not null,CONSTRAINT uqTipoProd UNIQUE(Nome)
+)
+
+
+Create Table UnidadeCompra
+(
+Id INT not null IDENTITY(1,1), CONSTRAINT pkUnidadeCompra PRIMARY KEY (Id),
+Nomenclatura nvarchar not null, CONSTRAINT uqUnicompro UNIQUE(Nomenclatura),
+UniMedida nvarchar not null,CONSTRAINT fkUniMedidaNaUniCompra FOREIGN KEY (UniMedida) REFERENCES UnidadeMedida(Nomenclatura),
+Equivalencia INT, notnull
+)
+
+
+Create Table Receita
+(
+Id INT not null IDENTITY(1,1), CONSTRAINT pkReceita PRIMARY KEY (Id),
+Idprod1 nvarchar not null, CONSTRAINT fkIdprod1 FOREIGN KEY (Idprod1) REFERENCES UnidadeMedida(Nomenclatura),
+Idprod2 nvarchar null, CONSTRAINT fkIdprod2 FOREIGN KEY (Idprod2) REFERENCES UnidadeMedida(Nomenclatura),
+Idprod3 nvarchar null, CONSTRAINT fkIdprod3 FOREIGN KEY (Idprod3) REFERENCES UnidadeMedida(Nomenclatura),
+Idprod4 nvarchar null, CONSTRAINT fkIdprod4 FOREIGN KEY (Idprod4) REFERENCES UnidadeMedida(Nomenclatura),
+Idprod5 nvarchar null, CONSTRAINT fkIdprod5 FOREIGN KEY (Idprod5) REFERENCES UnidadeMedida(Nomenclatura),
+Qtdprod1 INT not null,
+Qtdprod2 INT null,
+Qtdprod3 INT null,
+Qtdprod4 INT null,
+Qtdprod5 INT null 
+)
+
+Create Table Produto
+(
+Id INT not null IDENTITY(1,1), CONSTRAINT pkProduto PRIMARY KEY (Id),
+Nome nvarchar(10) not null, 
+QtdEstocada INT not null,
+TipoProd INT not null, CONSTRAINT fkTipo FOREIGN KEY (TipoProd) REFERENCES Tipo(id), 
+UniCompra nvarchar not null, CONSTRAINT fkUniCompra FOREIGN KEY (UniCompra) REFERENCES UnidadeCompra(Nomenclatura),
+UniMedida nvarchar not null, CONSTRAINT fkUniMedida FOREIGN KEY (UniMedida) REFERENCES UnidadeMedida(Nomenclatura)
+)
+
